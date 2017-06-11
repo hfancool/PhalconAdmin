@@ -33,20 +33,21 @@ class Module implements ModuleDefinitionInterface
      */
     public function registerServices(DiInterface $di)
     {
+
         /**
          * Setting up the view component
          */
-        $di->set('view', function () {
-            $view = new View();
-            $view->setDI($this);
-            $view->setViewsDir(__DIR__ . '/views/');
-
-            $view->registerEngines([
-//                '.volt'  => 'voltShared',
-                '.phtml' => PhpEngine::class
-            ]);
-
-            return $view;
-        });
+//        $di->set('view', function () {
+//            $view = new View();
+//            $view->setDI($this);
+//            $view->setViewsDir(__DIR__ . '/views/');
+//
+////            $view->registerEngines([
+//////                '.volt'  => 'voltShared',
+////                '.phtml' => PhpEngine::class
+////            ]);
+//
+//            return $view;
+//        });
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Phalcon\Modules\Admin\Controllers;
 use Phalcon\Modules\Admin\Models\Admin;
+use Phalcon\Modules\Admin\Models\Robots;
+use Phalcon\Modules\Admin\Models\RobotsParts;
 
 class IndexController extends ControllerBase
 {
@@ -10,13 +12,15 @@ class IndexController extends ControllerBase
     {
         $res = Admin::find()->toArray();
 
-        echo "<pre>";
         print_r($res);
-        echo "/<pre>";
     }
 
     public function testAction(){
-        var_dump('asdfasdfssssss');
+        $RobotsParts = Robots::findFirst() ;
+
+        $sss= $RobotsParts->getRelated('eeeeee')->toArray();
+        var_dump($sss);
+
     }
 
 }

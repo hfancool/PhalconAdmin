@@ -37,12 +37,19 @@ try {
     $application = new Application($di);
 
     /**
+     * 关闭视图自动渲染
+     * 接口开发建议关闭
+     */
+    $application->useImplicitView(false);
+
+    /**
      * Register application modules
      */
     $application->registerModules([
         'frontend' => ['className' => 'Phalcon\Modules\Frontend\Module'],
         'admin' => ['className' => 'Phalcon\Modules\Admin\Module'],
     ]);
+
 
     /**
      * Include routes
