@@ -9,6 +9,7 @@ use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Flash\Direct as Flash;
+use Phalcon\Http\Response\Cookies;
 
 /**
  * Shared configuration service
@@ -41,6 +42,7 @@ $di->setShared('db', function () {
     return $connection;
 });
 
+
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
@@ -70,6 +72,21 @@ $di->setShared('url', function () {
 
     return $url;
 });
+
+
+/**
+ * cookie
+ */
+$di->setShared(
+    "cookies",
+    function () {
+        $cookies = new Cookies();
+
+        $cookies->useEncryption(false);
+
+        return $cookies;
+    }
+);
 
 /**
  * Starts the session the first time some component requests the session service
@@ -113,13 +130,20 @@ $di->setShared('voltShared', function ($view) {
     $volt->setOptions([
         'compiledPath' => function($templatePath) use ($config) {
 
-            // Makes the view path into a portable fragment
-            $templateFrag = str_replace($config->application->appDir, '', $templatePath);
+            /*获取模块地址*/
+            $pattern = '/modules.*/';
+            preg_match($pattern, $templatePath, $matches, PREG_OFFSET_CAPTURE, 3);
+            $moduleDir = $matches[0][0];
 
-            // Replace '/' with a safe '%%'
-            $templateFrag = str_replace('/', '%%', $templateFrag);
+            $fileName = $config->application->cacheDir . 'volt/' . $moduleDir . '.php';
 
-            return $config->application->cacheDir . 'volt/' . $templateFrag . '.php';
+            $dirName = dirname($fileName);
+
+            if(!is_dir($dirName)){
+                mkdir($dirName,0777,true);
+            }
+
+            return $fileName;
         }
     ]);
 

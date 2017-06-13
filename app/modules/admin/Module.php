@@ -6,6 +6,7 @@ use Phalcon\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+use Phalcon\Modules\Admin\Common\Common;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -21,6 +22,7 @@ class Module implements ModuleDefinitionInterface
         $loader->registerNamespaces([
             'Phalcon\Modules\Admin\Controllers' => __DIR__ . '/controllers/',
             'Phalcon\Modules\Admin\Models' => __DIR__ . '/models/',
+            'Phalcon\Modules\Admin\Common' => __DIR__ . '/common/',
         ]);
 
         $loader->register();
@@ -37,17 +39,28 @@ class Module implements ModuleDefinitionInterface
         /**
          * Setting up the view component
          */
-//        $di->set('view', function () {
-//            $view = new View();
-//            $view->setDI($this);
-//            $view->setViewsDir(__DIR__ . '/views/');
-//
-////            $view->registerEngines([
-//////                '.volt'  => 'voltShared',
-////                '.phtml' => PhpEngine::class
-////            ]);
-//
-//            return $view;
-//        });
+        $di->set('view', function () {
+            $view = new View();
+            $view->setDI($this);
+            $view->setViewsDir(__DIR__ . '/views/');
+            $view->title = '后台管理';
+
+            $view->registerEngines([
+                '.volt'  => 'voltShared',
+                '.phtml' => PhpEngine::class
+            ]);
+
+            return $view;
+        });
+
+        $di->set("common", function() use ($di){
+
+            $common = new Common();
+
+            $common->setDi($di);
+
+            return $common;
+        });
     }
+
 }
