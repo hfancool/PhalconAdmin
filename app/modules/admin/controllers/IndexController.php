@@ -47,11 +47,83 @@ class IndexController extends ControllerBase
             ));
         }
         $this->session->set('user_id',$adminInfo->user_id);
+        $this->session->set('user_name',$adminInfo->user_name);
 
         return json_encode(array(
             'code'    => 200,
         ));
 
+    }
+
+    /**
+     * 管理员修改密码
+     */
+    public function chpwdAction(){
+
+        if(!$this->common->checkLogin()) return;
+
+        if($this->request->isAjax()){
+            $password   = $this->request->getPost('password');
+            $rePassword = $this->request->getPost('rePassword');
+
+            if($password != $rePassword){
+                return json_encode(array(
+                    'code'    => 400,
+                    'message' => '两次密码输入不一致'
+                ));
+            }
+            $adminInfo = Admin::findFirst($this->session->get('user_id'));
+            if(!$adminInfo){
+                return json_encode(array(
+                    'code'    => 400,
+                    'message' => '系统错误'
+                ));
+            }
+
+            if($adminInfo->changePassword($password) === false) {
+                return json_encode(array(
+                    'code'    => 400,
+                    'message' => '密码更新失败'
+                ));
+            }
+
+            return json_encode(array(
+                'code'    => 200,
+            ));
+        }
+        $this->view->user_name = $this->session->get('user_name');
+        return $this->view->render('index','chpwd');
+
+    }
+
+    /**
+     * 管理员身份校验
+     */
+    public function checkAuthAction(){
+
+        if(!$this->common->checkLogin()) return;
+
+        $password = $this->request->getPost('oldPassword');
+
+        $adminInfo = Admin::findFirst($this->session->get('user_id'));
+
+        if(!$adminInfo){
+            return json_encode(array(
+                'code'    => 400,
+                'message' => '系统错误'
+            ));
+        }
+
+        if(!$adminInfo->Authentication($password)){
+            return json_encode(array(
+                'code'    => 400,
+                'message' => '身份验证失败'
+            ));
+        }
+
+        return json_encode(array(
+            'code'    => 200,
+        ));
     }
 
     /**
@@ -95,9 +167,16 @@ class IndexController extends ControllerBase
 
         if(!$this->common->checkLogin()) return;
 
+        /*获取管理员的信息*/
+        $adminInfo = Admin::findFirst([
+            'conditions' => $this->session->get('user_id'),
+            'columns'    => 'create_time,user_name,last_login,last_ip,logins'
+        ])->toArray();
+
+        $this->view->adminInfo = $adminInfo;
+
         return $this->view->render('index','main');
 
-        echo 'hello world';
     }
 
     public function testAction()

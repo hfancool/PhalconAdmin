@@ -39,11 +39,13 @@ class Module implements ModuleDefinitionInterface
         /**
          * Setting up the view component
          */
-        $di->set('view', function () {
+        $di->set('view', function () use ($di) {
             $view = new View();
             $view->setDI($this);
             $view->setViewsDir(__DIR__ . '/views/');
             $view->title = '后台管理';
+            $view->action     = $di->get('dispatcher')->getActionName();
+            $view->controller = $di->get('dispatcher')->getControllerName();
 
             $view->registerEngines([
                 '.volt'  => 'voltShared',
