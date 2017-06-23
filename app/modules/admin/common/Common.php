@@ -34,7 +34,7 @@ class Common implements InjectionAwareInterface{
     }
 
     public function test(){
-        return 'asdf';
+        return 'test';
     }
 
 }

@@ -127,6 +127,7 @@ $di->setShared('voltShared', function ($view) {
     $config = $this->getConfig();
 
     $volt = new VoltEngine($view, $this);
+
     $volt->setOptions([
         'compiledPath' => function($templatePath) use ($config) {
 

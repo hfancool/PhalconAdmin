@@ -30,6 +30,8 @@ return new \Phalcon\Config([
         'baseUri'        => preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"]),
     ],
 
+    'pageSize' => 15,
+
     /**
      * if true, then we print a new line at the end of each CLI execution
      *

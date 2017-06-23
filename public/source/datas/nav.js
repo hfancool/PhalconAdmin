@@ -1,7 +1,20 @@
 var navs = [{
+    "title": "管理员管理",
+    "icon": "fa-user",
+    "spread": true,
+    "children": [{
+        "title": "管理员列表",
+        "icon": "fa-list",
+        "href": "/admin/Administrators/adminList"
+    }, {
+        "title": "权限管理",
+        "icon": "fa-lock",
+        "href": "form.html"
+    }]
+},{
 	"title": "基本元素",
 	"icon": "fa-cubes",
-	"spread": true,
+	"spread": false,
 	"children": [{
 		"title": "按钮",
 		"icon": "&#xe641;",

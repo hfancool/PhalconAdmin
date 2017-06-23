@@ -1,4 +1,4 @@
-layui.use(['element', 'layer', 'navbar', 'tab'], function() {
+layui.use(['element', 'layer', 'tab'], function() {
     var element = layui.element(),
         $ = layui.jquery,
         layer = layui.layer;
@@ -63,6 +63,38 @@ layui.use(['element', 'layer', 'navbar', 'tab'], function() {
                 }
             }
         });
+    });
+
+    $('#selected-all').click(function(){
+        if($('#selected-all').get(0).checked){
+            $("input[type='checkbox']").each(function (i) {
+                if(i >0){
+                    $(this).get(0).checked = true;
+                }
+            });
+        }else{
+            $("input[type='checkbox']").each(function (i) {
+                if(i >0){
+                    $(this).get(0).checked = false;
+                }
+            });
+        }
+    });
+
+    $("input[type='checkbox']").click(function () {
+        var flag = false;
+        $(".chBox").each(function (i) {
+            if( $(this).get(0).checked){
+                flag = true;
+            }
+        });
+
+        if(!flag){
+            $('.batchButton').attr({'class':'layui-btn layui-btn-disabled batchButton'});
+        }else{
+            $('.batchButton').attr({'class':'layui-btn layui-btn-primary batchButton'});
+        }
+
     });
 
 

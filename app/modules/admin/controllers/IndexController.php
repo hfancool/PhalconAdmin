@@ -15,6 +15,8 @@ class IndexController extends ControllerBase
 
             if($this->cookies->has('user_name')){
                 $this->view->user_name = $this->cookies->get('user_name');
+            }else{
+                $this->view->user_name = '';
             }
 
             return $this->view->render('index','index');
@@ -46,6 +48,7 @@ class IndexController extends ControllerBase
                 'message' => '用户名或密码错误'
             ));
         }
+
         $this->session->set('user_id',$adminInfo->user_id);
         $this->session->set('user_name',$adminInfo->user_name);
 
@@ -130,14 +133,14 @@ class IndexController extends ControllerBase
      * 获取管理员信息
      */
     public function adminInfoAction(){
-        var_dump('asdf');
+        var_dump('adminInfo');
     }
 
     /**
      * 管理员登录成功页面
      */
     public function welcomeAction(){
-        var_dump('ssss');
+        return '<h1 style="text-align: center;margin-top: 20%">Welcome Admin</h1>';
     }
 
     /**

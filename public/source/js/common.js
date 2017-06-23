@@ -6,6 +6,13 @@ layui.define(['layer'], function(exports) {
 		layer = layui.layer;
 
 	var common = {
+
+        getParams:function(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        },
 		/**
 		 * 抛出一个异常错误信息
 		 * @param {String} msg

@@ -1,3 +1,4 @@
+{% include "common/header.volt" %}
 <body class="beg-login-bg">
     <div class="beg-login-box">
         <header>
@@ -74,3 +75,4 @@
         });
     </script>
 </body>
+{% include "common/footer.volt" %}

@@ -1,4 +1,3 @@
-{% include "common/header.volt" %}
 <div class="layui-layout layui-layout-admin" style="border-bottom: solid 5px #1aa094;">
     <div class="layui-header header header-demo">
         <div class="layui-main">
@@ -18,7 +17,7 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;" class="admin-header-user">
                         <img src="/source/images/0.jpg" />
-                        <span>{{adminInfo['user_name']}}</span>
+                        <span><?= $adminInfo['user_name'] ?></span>
                     </a>
                     <dl class="layui-nav-child">
                         <dd id="chpwd">
@@ -67,8 +66,7 @@
     </div>
     <div class="site-mobile-shade"></div>
 </div>
-
-{% include "common/footer.volt" %}
+<script type="text/javascript" src="/source/plugins/layui/layui.js"></script>
 <script type="text/javascript" src="/source/datas/nav.js"></script>
 <script type="text/javascript" src="/source/js/global.js"></script>
 <script type="text/javascript" src="/source/js/index.js"></script>

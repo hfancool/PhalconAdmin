@@ -55,6 +55,9 @@ class Module implements ModuleDefinitionInterface
             return $view;
         });
 
+        /**
+         * 注册common组件
+         */
         $di->set("common", function() use ($di){
 
             $common = new Common();

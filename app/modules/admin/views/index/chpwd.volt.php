@@ -1,4 +1,3 @@
-{% include "common/header.volt" %}
 <div style="margin: 15px;">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
         <legend>修改密码</legend>
@@ -8,7 +7,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">管理员</label>
             <span class="layui-form-label" style="text-align: left">
-                {{user_name}}
+                <?= $user_name ?>
             </span>
         </div>
 
@@ -83,4 +82,3 @@
         });
     });
 </script>
-{% include "common/footer.volt" %}
