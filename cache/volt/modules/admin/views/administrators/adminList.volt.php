@@ -151,18 +151,46 @@
 
                 var checkBox = $("input[name='batchDel']");
                 var arrDel = [];
+                var arrObj = [];
                 checkBox.each(function (index) {
                     if($(this).get(0).checked){
                         arrDel.push($(this).val());
+                        arrObj.push(this);
                     }
                 });
 
                 layer.confirm('确定修改选中的管理员状态吗 ？', {
                     offset: '200px',
                     btn: ['确定','取消'] //按钮
-                }, function(){
+                }, function(index){
+                    console.log(arrDel);
 
-//                    location.href = '/admin/Administrators/delete/'+arrDel;
+                    $.ajax({
+                        url  : '/admin/Administrators/bacthHandle',
+                        type : 'POST',
+                        data : {id:arrDel.join()},
+                        success : function (res) {
+                            var objRes = eval('('+res+')');
+                            if(objRes.code != 200){
+                                layer.alert(objRes.message);
+                            }else{
+                                layer.closeAll();
+                                /*修改状态*/
+                                for(var i = 0 ; i<arrObj.length;i++){
+//                                    $(arrObj[i]).get(0).checked = false;
+                                    var that = $(arrObj[i]).parent('td').siblings().eq(5).find('.dealHandle');
+                                    if(that.hasClass('layui-btn-warm')){
+                                        that.removeClass('layui-btn-warm');
+                                        that.html('启用');
+                                    }else{
+                                        that.addClass('layui-btn-warm');
+                                        that.html('禁用');
+                                    }
+                                }
+                            }
+                        }
+                    });
+
                 });
 
             });
@@ -187,7 +215,7 @@
                     offset: '200px',
                     btn: ['确定','取消'] //按钮
                 }, function(){
-                    location.href = '/admin/Administrators/delete/'+arrDel;
+                    location.href = '/admin/Administrators/delete/'+arrDel.join();
                 });
 
             });

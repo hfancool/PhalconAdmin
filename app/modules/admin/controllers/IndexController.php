@@ -33,6 +33,14 @@ class IndexController extends ControllerBase
 
         $adminInfo =  Admin::findFirst(["conditions" => "user_name = '".$username."'"]);
 
+        /*判断管理员是否被禁用*/
+        if($adminInfo->status == 0){
+            return json_encode(array(
+                'code'    => 400,
+                'message' => '账号已停用'
+            ));
+        }
+
         if(!$adminInfo){
             return json_encode(array(
                 'code'    => 400,

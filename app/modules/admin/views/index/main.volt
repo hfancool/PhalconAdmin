@@ -69,6 +69,7 @@
 </div>
 
 {% include "common/footer.volt" %}
+<script type="text/javascript" src="/source/plugins/layui/layui.js"></script>
 <script type="text/javascript" src="/source/datas/nav.js"></script>
 <script type="text/javascript" src="/source/js/global.js"></script>
 <script type="text/javascript" src="/source/js/index.js"></script>

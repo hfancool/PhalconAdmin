@@ -18,7 +18,6 @@
 
 </head>
 
-<body>
 <div class="layui-layout layui-layout-admin" style="border-bottom: solid 5px #1aa094;">
     <div class="layui-header header header-demo">
         <div class="layui-main">
@@ -88,10 +87,9 @@
     <div class="site-mobile-shade"></div>
 </div>
 
-</body>
-<script type="text/javascript" src="/source/plugins/layui/layui.js"></script>
 </html>
 
+<script type="text/javascript" src="/source/plugins/layui/layui.js"></script>
 <script type="text/javascript" src="/source/datas/nav.js"></script>
 <script type="text/javascript" src="/source/js/global.js"></script>
 <script type="text/javascript" src="/source/js/index.js"></script>

@@ -1,6 +1,7 @@
 <?php
 namespace Phalcon\Modules\Admin\Models;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Di;
 
 class Admin extends Model
@@ -42,11 +43,14 @@ class Admin extends Model
             return false;
         }
 
-        $this->last_login = time();
-        $this->logins     = $this->logins + 1;
-        $this->last_ip = Di::getDefault()->getRequest()->getClientAddress();
+        $dispatcher = Di::getDefault()->getDispatcher();
 
-        $this->save();
+        if($dispatcher->getActionName() == 'index'){
+            $this->last_login = time();
+            $this->logins     = $this->logins + 1;
+            $this->last_ip = Di::getDefault()->getRequest()->getClientAddress();
+            $this->save();
+        }
 
         return true;
 
@@ -75,10 +79,27 @@ class Admin extends Model
     }
 
     /**
+     * 批量编辑管理员 禁用、启用
+     */
+
+    public function batchHandle($ids){
+        if(empty($ids)){
+            return false;
+        }
+
+        $phql = 'update '.__NAMESPACE__.'\Admin set status = case status when 1 then 0 when 0 then 1 end '.
+                ' where user_id in '.$ids;
+        $query = new Query($phql,$this->getDI());
+
+         return $query ->execute();
+
+    }
+    /**
      * 获取管理员列表
      */
     public function getList(){
 
+        return __NAMESPACE__ ;
     }
 
 }

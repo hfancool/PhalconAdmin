@@ -34,7 +34,9 @@ class AdministratorsController extends ControllerBase
         $AdminList = Admin::find($parameters) -> toArray();
 
         $this->view->lists = $AdminList;
-        $this->view->totalPage = ceil(Admin::count()/$pageSize);
+        $this->view->totalPage = ceil(Admin::count([
+                'conditions' => $parameters['conditions']
+            ])/$pageSize);
         $this->view->sequence = $pageSize*($curPage - 1);
 
         return $this->view->render('administrators','adminList');
@@ -111,6 +113,39 @@ class AdministratorsController extends ControllerBase
         ));
     }
 
+    /**
+     * 批量处理管理员禁用、启用
+     */
+    public function bacthHandleAction(){
+
+        /*获取id*/
+
+        $str_id = $this->request->getPost('id');
+
+        if(empty($str_id)){
+            return json_encode(array(
+                'code'    => 400,
+                'message' => '请求参数错误'
+            ));
+        }
+
+        $admin = new Admin();
+
+        $phql_str = '('.$str_id.')';
+
+        $res = $admin->batchHandle($phql_str);
+
+        if(!$res){
+            return json_encode([
+                'code'    => 400,
+                'message' => '系统错误'
+            ]);
+        }
+
+        return json_encode([
+            'code' => 200
+        ]);
+    }
 
 
 }
