@@ -1,9 +1,9 @@
 var navs = [{
-    "title": "管理员管理",
+    "title": "管理员",
     "icon": "fa-user",
     "spread": true,
     "children": [{
-        "title": "管理员列表",
+        "title": "管理员管理",
         "icon": "fa-list",
         "href": "/admin/Administrators/adminList"
     }, {

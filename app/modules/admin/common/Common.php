@@ -20,12 +20,13 @@ class Common implements InjectionAwareInterface{
 
     public function checkLogin(){
         $session = $this->_di->get('session');
-        $dispatcher = $this->_di->get('dispatcher');
+//        $dispatcher = $this->_di->get('dispatcher');
         if(!$session->has('user_id')){
-            $dispatcher->forward([
-                'controller' => 'index',
-                'action'     => 'index'
-            ]);
+            echo("<script language='javascript'>window.top.location.href='/admin/index/index'</script>");
+//            $dispatcher->forward([
+//                'controller' => 'index',
+//                'action'     => 'index'
+//            ]);
 
             return false;
         }

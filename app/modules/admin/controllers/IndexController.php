@@ -2,6 +2,7 @@
 
 namespace Phalcon\Modules\Admin\Controllers;
 use Phalcon\Modules\Admin\Models\Admin;
+use Phalcon\Modules\Admin\Models\AdminMenu;
 
 class IndexController extends ControllerBase
 {
@@ -192,6 +193,16 @@ class IndexController extends ControllerBase
 
     public function testAction()
     {
+
+        $res = AdminMenu::find([
+            'conditions' => 'pid = 0 '
+        ]);
+
+        foreach($res as $p){
+            var_dump($p->getMenuList());
+        }
+
+        exit;
 //        $this->session->destroy();exit;
         $this->common->checkLogin();
         echo $this->common->test();

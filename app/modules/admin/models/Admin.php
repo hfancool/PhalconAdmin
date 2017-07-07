@@ -6,12 +6,23 @@ use Phalcon\Di;
 
 class Admin extends Model
 {
-
+    const nsTable = 'Phalcon\Modules\Admin\Models\Admin';
     protected $salt;
     protected $password;
     protected $create_time;
     protected $last_login;
     protected $logins;
+
+    public function initialize()
+    {
+        /*定义数据库模型关系*/
+        $this->hasMany(
+            'user_id',
+            "Phalcon\\Modules\\Admin\\Models\\AdminPerm",
+            'admin_id',
+            ['alias'=>'admin_perm']
+        );
+    }
 
     /**
      * @return bool|string
@@ -83,23 +94,17 @@ class Admin extends Model
      */
 
     public function batchHandle($ids){
+
         if(empty($ids)){
             return false;
         }
 
-        $phql = 'update '.__NAMESPACE__.'\Admin set status = case status when 1 then 0 when 0 then 1 end '.
+        $phql = 'update '.self::nsTable.' set status = case status when 1 then 0 when 0 then 1 end '.
                 ' where user_id in '.$ids;
         $query = new Query($phql,$this->getDI());
 
          return $query ->execute();
 
-    }
-    /**
-     * 获取管理员列表
-     */
-    public function getList(){
-
-        return __NAMESPACE__ ;
     }
 
 }

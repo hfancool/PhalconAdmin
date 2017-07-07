@@ -35,7 +35,7 @@
                                 <td>{{item['last_ip']}}</td>
                                 <td>{{item['logins']}}</td>
                                 <td data-field="{{ item['user_id'] }}">
-                                    <a href="javascript:;" class="layui-btn layui-btn-mini">修改权限</a>
+                                    <a href="javascript:;" class="layui-btn layui-btn-mini modify-perm">修改权限</a>
                                         {% if item['status'] == 1 %}
                                         <a href="javascript:;" class="layui-btn layui-btn-mini layui-btn-warm dealHandle">禁用</a>
                                         {% else %}
@@ -59,6 +59,7 @@
         </fieldset>
     </div>
 </body>
+
 <!--模板-->
 <script type="text/javascript" src="/source/plugins/layui/layui.js"></script>
 <script type="text/javascript">
@@ -69,10 +70,12 @@
         base: '/source/js/'
     }).extend({
         common: 'common'
-    }).use(['laypage','common'], function() {
+    }).use(['laypage','common','element','form'], function() {
         var $ = layui.jquery,
             laypage = layui.laypage,
-            common = layui.common      ;
+            element = layui.element(),
+            common = layui.common,
+            form = layui.form();
             var page = common.getParams('page') || 1;
 
             laypage({
@@ -201,8 +204,72 @@
 
             });
 
+        /*权限管理*/
+        $('.modify-perm').click(function () {
+            layer.load();
+            /*获取当前管理员的id*/
+            var admin_id = $(this).parent().attr('data-field');
+            var admin_name = $(this).parents('tr').find('td').eq(2).html();
+            $.get('/admin/Administrators/adminPerm/'+admin_id, function (res) {
+                var objRes = eval('('+res+')');
+                var html = "";
+                html += '<div style="width: 99%">';
+                html += '<div id="perm" class="layui-tab layui-tab-card" style="width: 100%">';
+                html += '<ul class="layui-tab-title">';
+                $.each(objRes.title,function (index,cur) {
+                    if(index == 0){
+                        html += '<li class="layui-this">'+cur.text+'</li>';
+                    }else{
+                        html += '<li>'+cur.text+'</li>';
+                    }
+                });
+                html += '</ul>';
+                html += '<div class="layui-tab-content" style="height: 100px;">';
+                
+                $.each(objRes.perm, function (index, cur) {
+                    if(index == 0){
+                        html += '<div class="layui-tab-item layui-show">';
+                    }else{
+                        html += '<div class="layui-tab-item">';
+                    }
+                    html += '<div class="layui-form">';
+                    $.each(cur.text, function (i,item) {
+                        html += '<div style="display: inline-block">';
+                        html += '<input type="checkbox" lay-filter="changePerm" admin_id="'+admin_id+'" data-field="'+item.id+'" lay-skin="primary" title="'+item.name+'" '+($.inArray(item.id,objRes.hadPerms)<0 ?  "" :"checked=\"\"")+'>';
+                        html += '</div>';
+                    });
+                    html += '</div>';
+                    html += '</div>';
+                });
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+                layer.closeAll('loading');
 
-
+                layer.open({
+                    type: 1 //Page层类型
+                    ,area: ['900px', '500px']
+                    ,offset : '120px'
+                    ,title: '管理员权限 -- 管理员：'+admin_name
+                    ,scrollbar:false
+                    ,shade: 0.6 //遮罩透明度
+                    ,maxmin: true //允许全屏最小化
+                    ,anim: 0 //0-6的动画形式，-1不开启
+                    ,content: html
+                    ,success: function () {
+                        form.on('checkbox(changePerm)', function(data){
+                            var that = $(data.elem);
+                            var perm_id  = that.attr('data-field');
+                            var admin_id = that.attr('admin_id');
+                            var flag     = that.get(0).checked;
+                            $.get('/admin/Administrators/changePerm',{admin_id:admin_id,perm_id:perm_id,flag:flag});
+                        });
+                        $.getScript('/source/plugins/layui/lay/modules/form.js');
+                        element.init();    //表单元素重新绑定事件、样式
+                    }
+                });
+            });
+        });
     });
 
 </script>

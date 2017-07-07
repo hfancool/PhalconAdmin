@@ -6,10 +6,11 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
+//use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Http\Response\Cookies;
+use Phalcon\Db\Adapter\Pdo\Mysql;
 
 /**
  * Shared configuration service
@@ -92,10 +93,32 @@ $di->setShared(
  * Starts the session the first time some component requests the session service
  */
 $di->setShared('session', function () {
-    $session = new SessionAdapter();
+
+    /**
+     * Include adapter
+     */
+    require APP_PATH . '/adapter/session/Database.php';
+
+    $connection = new Mysql([
+        'host'     => 'localhost',
+        'username' => 'root',
+        'password' => 'root',
+        'dbname'   => 'phalcon'
+    ]);
+
+    $session = new Phalcon\Session\Adapter\Database([
+        'db'    => $connection,
+        'table' => 'session_data'
+    ]);
+
     $session->start();
 
     return $session;
+    /*默认文件*/
+//    $session = new SessionAdapter();
+//    $session->start();
+//
+//    return $session;
 });
 
 /**
