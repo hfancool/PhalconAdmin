@@ -41,4 +41,11 @@ class AdminMenu extends Model{
 
     }
 
+    /**
+     * 通过孩子id找出父父亲
+     */
+    public function getParent(){
+        return $this->getRelated('parents') -> toArray();
+    }
+
 }

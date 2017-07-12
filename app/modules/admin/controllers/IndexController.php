@@ -138,12 +138,6 @@ class IndexController extends ControllerBase
         ));
     }
 
-    /**
-     * 获取管理员信息
-     */
-    public function adminInfoAction(){
-        var_dump('adminInfo');
-    }
 
     /**
      * 管理员登录成功页面
@@ -167,9 +161,7 @@ class IndexController extends ControllerBase
                 'message' => '退出登录失败'
             ));
         }
-
     }
-
 
     /**
      * 后台登录成功页面
@@ -189,6 +181,59 @@ class IndexController extends ControllerBase
 
         return $this->view->render('index','main');
 
+    }
+
+    /**
+     * 根据管理员权限分配管理员可操作的目录
+     */
+    public function navAction(){
+
+        if(!$this->common->checkLogin()) return;
+
+        $adminInfo = Admin::findFirst($this->session->get('user_id'));
+
+        $adminPerm = $adminInfo->getRelated('admin_perm')->toArray();
+
+        $children = array();
+        foreach($adminPerm as $key => $value){
+            $menu_item = AdminMenu::findFirst([
+                'conditions' => 'menu_id = '.intval($value['perm_id'])
+            ])->toArray();
+
+            if(!array_key_exists($menu_item['pid'],$children)){
+                $children[$menu_item['pid']] = array(
+                    array(
+                        'title'  => $menu_item['title'],
+                        'icon'   => $menu_item['icon'],
+                        'href'   => $menu_item['href']
+                    )
+                );
+            }else{
+                array_push($children[$menu_item['pid']],array(
+                    'title'  => $menu_item['title'],
+                    'icon'   => $menu_item['icon'],
+                    'href'   => $menu_item['href']
+                ));
+            }
+        }
+
+        /*封装nav 数据*/
+        $returnData = array();
+
+        foreach($children as $key => $value){
+            /*获取父节点*/
+            $parentInfo = AdminMenu::findFirst($key)->toArray();
+
+            array_push($returnData,array(
+                'title'  => $parentInfo['title'],
+                'icon'   => $parentInfo['icon'],
+                'spread' => $parentInfo['spread'] ==  1 ?  true :false,
+                'children' => $children[$key]
+            ));
+
+        }
+
+        return json_encode($returnData);
     }
 
     public function testAction()
