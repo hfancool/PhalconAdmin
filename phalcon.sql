@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2017-07-07 18:03:18
+Date: 2017-07-12 18:26:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,13 +30,13 @@ CREATE TABLE `admin` (
   `salt` varchar(6) DEFAULT '' COMMENT '密码相关',
   `status` tinyint(1) DEFAULT '1' COMMENT '1、启用 2、禁用',
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('2', '0', 'admin', 'fe27052db6930a691f72fe10acd55dfc', '1499416114', '127.0.0.1', '33', 'efgh', '1');
-INSERT INTO `admin` VALUES ('3', '0', 'hfan', 'fe27052db6930a691f72fe10acd55dfc', '1499396731', '127.0.0.1', '13', 'efgh', '1');
+INSERT INTO `admin` VALUES ('2', '0', 'admin', 'fe27052db6930a691f72fe10acd55dfc', '1499837471', '127.0.0.1', '39', 'efgh', '1');
+INSERT INTO `admin` VALUES ('3', '0', 'hfan', 'fe27052db6930a691f72fe10acd55dfc', '1499847728', '127.0.0.1', '21', 'efgh', '1');
 INSERT INTO `admin` VALUES ('8', '0', 'test3', '', '0', '', '0', '', '0');
 INSERT INTO `admin` VALUES ('7', '0', 'test2', '', '0', '', '0', '', '0');
 INSERT INTO `admin` VALUES ('6', '0', 'test1', '', '0', '', '0', '', '0');
@@ -51,6 +51,10 @@ INSERT INTO `admin` VALUES ('19', '0', 'gggg', '', '0', '', '0', '', '0');
 INSERT INTO `admin` VALUES ('20', '0', 'eee', '', '0', '', '0', '', '0');
 INSERT INTO `admin` VALUES ('22', '0', 'qqqq', '', '0', '', '0', '', '0');
 INSERT INTO `admin` VALUES ('23', '0', 'sssss', '', '0', '', '0', '', '1');
+INSERT INTO `admin` VALUES ('26', '0', 'qqqq', 'de1278043ced6103e7f60914f34c5fbc', '0', '', '0', '', '1');
+INSERT INTO `admin` VALUES ('27', '0', 'ddd', '4bff51d60f3ab4a9115d892a2f6c79bc', '0', '', '0', '(kja', '1');
+INSERT INTO `admin` VALUES ('28', '0', 'rrrr', 'fe27052db6930a691f72fe10acd55dfc', '0', '', '0', 'efgh', '1');
+INSERT INTO `admin` VALUES ('29', '1499855010', 'wwwwww', '33793977115664182d75887e1ef0af7b', '0', '', '0', '&&', '1');
 
 -- ----------------------------
 -- Table structure for admin_menu
@@ -64,15 +68,16 @@ CREATE TABLE `admin_menu` (
   `icon` varchar(50) DEFAULT '' COMMENT '图标',
   `href` varchar(100) DEFAULT '' COMMENT '链接地址',
   PRIMARY KEY (`menu_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of admin_menu
 -- ----------------------------
-INSERT INTO `admin_menu` VALUES ('1', '0', '0', '管理员', '', '');
-INSERT INTO `admin_menu` VALUES ('2', '0', '0', '地区管理', '', '');
-INSERT INTO `admin_menu` VALUES ('3', '1', '0', '管理员管理', '', '');
-INSERT INTO `admin_menu` VALUES ('4', '2', '0', '地区列表', '', '');
+INSERT INTO `admin_menu` VALUES ('1', '0', '1', '管理员', 'fa fa-user', '');
+INSERT INTO `admin_menu` VALUES ('2', '0', '0', '地区管理', 'fa fa-location-arrow', '');
+INSERT INTO `admin_menu` VALUES ('3', '1', '0', '管理员管理', 'fa fa-th', '/admin/Administrators/adminList');
+INSERT INTO `admin_menu` VALUES ('4', '2', '0', '地区列表', 'fa fa-th', '');
+INSERT INTO `admin_menu` VALUES ('5', '1', '0', '管理员日志', '&#xe63c;', '');
 
 -- ----------------------------
 -- Table structure for admin_perm
@@ -89,9 +94,6 @@ CREATE TABLE `admin_perm` (
 -- ----------------------------
 -- Records of admin_perm
 -- ----------------------------
-INSERT INTO `admin_perm` VALUES ('2', '3', '1499401517', '0');
-INSERT INTO `admin_perm` VALUES ('2', '4', '1499396778', '3');
-INSERT INTO `admin_perm` VALUES ('3', '3', '1499396303', '2');
 INSERT INTO `admin_perm` VALUES ('13', '3', '1499396373', '2');
 INSERT INTO `admin_perm` VALUES ('22', '3', '1499396600', '2');
 INSERT INTO `admin_perm` VALUES ('23', '3', '1499400482', '0');
@@ -101,7 +103,6 @@ INSERT INTO `admin_perm` VALUES ('19', '3', '1499396979', '3');
 INSERT INTO `admin_perm` VALUES ('20', '3', '1499396984', '3');
 INSERT INTO `admin_perm` VALUES ('22', '4', '1499406296', '0');
 INSERT INTO `admin_perm` VALUES ('9', '3', '1499396995', '3');
-INSERT INTO `admin_perm` VALUES ('5', '4', '1499397274', '3');
 INSERT INTO `admin_perm` VALUES ('6', '3', '1499397278', '3');
 INSERT INTO `admin_perm` VALUES ('13', '4', '1499404658', '0');
 INSERT INTO `admin_perm` VALUES ('12', '3', '1499406471', '0');
@@ -110,7 +111,8 @@ INSERT INTO `admin_perm` VALUES ('18', '4', '1499406482', '0');
 INSERT INTO `admin_perm` VALUES ('18', '3', '1499406654', '2');
 INSERT INTO `admin_perm` VALUES ('19', '4', '1499406661', '2');
 INSERT INTO `admin_perm` VALUES ('8', '3', '1499416197', '2');
-INSERT INTO `admin_perm` VALUES ('8', '4', '1499416198', '2');
+INSERT INTO `admin_perm` VALUES ('3', '3', '1499836071', '2');
+INSERT INTO `admin_perm` VALUES ('29', '4', '1499855038', '3');
 
 -- ----------------------------
 -- Table structure for region
@@ -3405,5 +3407,4 @@ CREATE TABLE `session_data` (
 -- ----------------------------
 -- Records of session_data
 -- ----------------------------
-INSERT INTO `session_data` VALUES ('njahm8948c0tf1ici5498pjn23', '', '1499324165', '1499341403');
-INSERT INTO `session_data` VALUES ('t8rl27tq3oq9has69944ss4u43', 'user_id|s:1:\"2\";user_name|s:5:\"admin\";_PHCOOKIE_user_name|a:2:{s:6:\"expire\";i:1500712113;s:4:\"path\";s:1:\"/\";}', '1499406592', '1499416252');
+INSERT INTO `session_data` VALUES ('hel68c2jq0f73r4lgdhkmk64m6', 'user_id|s:1:\"3\";user_name|s:4:\"hfan\";_PHCOOKIE_user_name|a:2:{s:6:\"expire\";i:1501143727;s:4:\"path\";s:1:\"/\";}', '1499838263', '1499855088');
