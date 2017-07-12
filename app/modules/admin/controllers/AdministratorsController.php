@@ -240,4 +240,44 @@ class AdministratorsController extends ControllerBase
         }
     }
 
+    /**
+     * 新增管理员
+     */
+    public function addAdminAction(){
+
+        $user_name = $this->request->getPost('user_name');
+        $password  = $this->request->getPost('password');
+        $chioce    = $this->request->getPost('choice');
+
+        if(empty($user_name) || empty($password)){
+            return json_encode(array(
+                'code'    => 400,
+                'message' => '非法请求'
+            ));
+        }
+
+        //保存数据
+        $admin = new Admin();
+        $admin-> user_name = $user_name;
+        $admin-> password  = $password;
+        $admin-> status    = $chioce == 'true' ? 1 : 0;
+
+        $res = $admin->save();
+
+        if(!$res){
+            return json_encode(array(
+                'code'    => 400,
+                'message' => '添加失败'
+            ));
+        }
+
+        return json_encode(array(
+            'code'    => 200,
+            'message' => '添加成功'
+        ));
+
+
+
+    }
+
 }

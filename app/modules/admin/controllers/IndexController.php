@@ -192,7 +192,14 @@ class IndexController extends ControllerBase
 
         $adminInfo = Admin::findFirst($this->session->get('user_id'));
 
-        $adminPerm = $adminInfo->getRelated('admin_perm')->toArray();
+        if($adminInfo->user_name == "admin"){
+            $adminPerm = AdminMenu::find([
+                'columns'=> 'menu_id as perm_id',
+                'conditions' => 'pid > 0'
+            ])->toArray();
+        }else{
+            $adminPerm = $adminInfo->getRelated('admin_perm')->toArray();
+        }
 
         $children = array();
         foreach($adminPerm as $key => $value){

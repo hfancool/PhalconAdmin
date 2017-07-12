@@ -8,7 +8,6 @@ class Admin extends Model
 {
     const nsTable = 'Phalcon\Modules\Admin\Models\Admin';
     protected $salt;
-    protected $password;
     protected $create_time;
     protected $last_login;
     protected $logins;
@@ -22,6 +21,16 @@ class Admin extends Model
             'admin_id',
             ['alias'=>'admin_perm']
         );
+    }
+
+    public function beforeCreate()
+    {
+        // Set the creation date
+        $newSalt      = substr('abcdefghifasidj)*&^*(kjasdo((&&',rand(0,31),4);
+        $newPwd = md5($newSalt.'#'.$this->password.'&'.strrev($newSalt));
+        $this->create_time  = time();
+        $this->password     = $newPwd;
+        $this->salt         = $newSalt;
     }
 
     /**
@@ -76,7 +85,7 @@ class Admin extends Model
             return false;
         }
 
-        $newSalt      = substr('abcdefghifasidj)*&^*(kjasdo((&&',4,4);
+        $newSalt      = substr('abcdefghifasidj)*&^*(kjasdo((&&',rand(0,31),4);
         $newPwd = md5($newSalt.'#'.$newPassword.'&'.strrev($newSalt));
 
         $this->salt = $newSalt;
