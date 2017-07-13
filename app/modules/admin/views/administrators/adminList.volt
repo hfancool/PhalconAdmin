@@ -5,16 +5,27 @@
             <legend>管理员列表</legend>
             <div class="layui-field-box">
                 <div>
-                    <form method="get">
-                        <div class="layui-input-inline">
-                            <input type="text" name="user_name" placeholder="管理员名称" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-btn-group">
-                            <button class="layui-btn" id="search">搜索</button>
-                            <button class="layui-btn" onclick="return false;" id="add">添加</button>
-                        </div>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn" onclick="return false;" id="add">添加</button>
+                        <!--筛选条件按钮-->
+                        <button class="layui-btn layui-btn-primary" onclick="return false;" id="search-filter">
+                            <i class="layui-icon" pointer="up">&#xe602;</i>
+                            <span>筛选条件</span>
+                        </button>
+                    </div>
 
-                    </form>
+                    <!--筛选条件内容框-->
+                    <fieldset class="layui-elem-field" id="search-filter-content">
+                        <div class="layui-field-box">
+                            <form method="get">
+                                <div class="layui-input-inline">
+                                    <input type="text" name="user_name" placeholder="管理员名称" autocomplete="off" class="layui-input">
+                                </div>
+                                <button class="layui-btn" id="search">搜索</button>
+                            </form>
+                        </div>
+                    </fieldset>
+
                     <table class="site-table table-hover">
                         <thead>
                         <tr>
@@ -95,6 +106,7 @@
                 }
             }
         });
+
     });
 </script>
 <script type="text/javascript" src="/source/js/admin.js"></script>

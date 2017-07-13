@@ -97,6 +97,18 @@ layui.use(['element', 'layer', 'tab'], function() {
 
     });
 
+    $('#search-filter').click(function () {
+        var ic = $(this).find('i').attr('pointer');
+        if(ic == 'up'){
+            $(this).find('i').html('&#xe61a;');
+            $(this).find('i').attr({pointer:'down'});
+        }else{
+            $(this).find('i').html('&#xe602;');
+            $(this).find('i').attr({pointer:'up'});
+        }
+        $("#search-filter-content").slideToggle();
+    });
+
 
 
 });
